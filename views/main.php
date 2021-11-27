@@ -18,7 +18,7 @@
     <div class="container-fluid">
       <div class="row">        
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-12 ml-sm-auto px-4">
                     
           <h2>Список книг</h2>
           <div class="table-responsive">
@@ -31,9 +31,9 @@
               </thead>
               <tbody>
                     <?php foreach($data as $item): ?>
-                        <tr align="center">
-                            <td><?=$item['auth_name'];?></a></td>
-                            <td><?=$item['book_name'];?></td>                             
+                        <tr align="left">
+                            <td><?=$item['first_name'].' '.(isset($item['patronymic']) && $item['patronymic'] != null ? $item['patronymic'].' ' : '').$item['last_name'];?></a></td>
+                            <td><?=$item['name'];?></td>                             
                         </tr>
                     <?php endforeach; ?>
               </tbody>

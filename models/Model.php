@@ -9,7 +9,7 @@ class Model{
 	}
     
     public static function init($host, $user, $pass, $dbName) {
-        self::$db = new \mysqli($host, $user, $pass, $dbName);        
+        self::$db = new \mysqli($host, $user, $pass, $dbName);
     }    
 	
 	public static function getByParams($params, $limit = '', $table = ''){
