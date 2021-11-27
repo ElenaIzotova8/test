@@ -11,39 +11,26 @@
     <link href="inc/css/main.css" rel="stylesheet">
   </head>
   <body>    
-    <form method="post">
-        <div class="form-inline">
-			<label class="col-form-label  m-3">Логин</label>
-            <div>
-                <input type="text" class="form-control" name="login" />
-            </div>
-			<label class="col-form-label m-3">Пароль</label>
-            <div>
-                <input type="password" class="form-control" name="password" />
-            </div>
-            <div>
-                <button name="admin" class="btn btn-success btn-block  m-3" type="submit">Вход для администратора</button>
-            </div>
-		</div>
-    </form>
-    <h6><?=$error;?></h6>
+    
     <div class="container-fluid">      
       <div class="row">
         <main role="main" class="col-12 ml-sm-auto px-4">                    
-          <h2>Список книг</h2>
+          <h2>Авторы и количество книг</h2>
           <div class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
                 <tr align="center">
                   <th>Автор</th>
-                  <th>Название книги </th>                  
+                  <th>Дата создания</th>                  
+                  <th>Количество книг</th>
                 </tr>
               </thead>
               <tbody>
                     <?php foreach($data as $item): ?>
                         <tr align="left">
                             <td><?=$item['first_name'].' '.(isset($item['patronymic']) && $item['patronymic'] != null ? $item['patronymic'].' ' : '').$item['last_name'];?></a></td>
-                            <td><?=$item['name'];?></td>                             
+                            <td><?=$item['created'];?></a></td>
+                            <td><?=$item['count'];?></td>
                         </tr>
                     <?php endforeach; ?>
               </tbody>
