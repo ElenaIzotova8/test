@@ -78,8 +78,7 @@ class App{
             }            
         }
         if (count($having) > 0) {
-            $where = ' HAVING '.implode(' AND ',$having);
-            echo $where;
+            $where = ' HAVING '.implode(' AND ',$having);            
         } else {
             $where = '';
         }
@@ -90,7 +89,42 @@ class App{
     }
     
     private function books() {
-        $data = Model::getByQuery("SELECT author_id, first_name, patronymic, last_name, b.id, b.created, name FROM books AS b LEFT JOIN authors AS a on b.author_id=a.id");        
+        if (isset($_POST['add'])) {            
+            Book::insert(['author_id' => $_POST['author_id'], 'name' => $_POST['name']]);
+        }
+        if (isset($_POST['save'])) {            
+            Book::update(['author_id' => $_POST['author_id'], 'name' => $_POST['name'], 'last_modified' => date("Y.m.d H:i:s")], "id=".$_POST['save']);
+        }
+        if (isset($_GET['del'])) {            
+            Book::deldata($_GET['del']);                
+        }
+        if (isset($_GET['edit'])) {
+            $book = Book::getByParams(['id' => $_GET['edit']])[0];
+        }
+        $having = [];
+        if (isset($_POST['filtr'])) {
+            if(isset($_POST['name']) && $_POST['name'] != '') {
+                $having[] = "LOWER(name) LIKE '%".mb_strtolower($_POST['name'])."%'";
+            }
+            if(isset($_POST['last_name']) && $_POST['last_name'] != '') {
+                $having[] = "LOWER(last_name) LIKE '%".mb_strtolower($_POST['last_name'])."%'";
+            }
+            if(isset($_POST['date_start']) && $_POST['date_start'] != '') {
+                $having[] = "b.created >='".$_POST['date_start']."'";
+            }
+            if(isset($_POST['date_end']) && $_POST['date_end'] != '') {
+                $having[] = "b.created <='".$_POST['date_end']." 23:59:59'";
+            }                        
+        }
+        if (count($having) > 0) {
+            $where = ' HAVING '.implode(' AND ',$having);            
+        } else {
+            $where = '';
+        }
+        $desc      = isset($_GET['desc']) && $_GET['desc'] == 1 ? ' DESC' : '';
+        $order     = isset($_GET['ord']) ? ' ORDER BY '. $_GET['ord'] . $desc : '';        
+        $data      = Model::getByQuery("SELECT author_id, first_name, patronymic, last_name, b.id, b.created, name FROM books AS b LEFT JOIN authors AS a on b.author_id=a.id".$where.$order);                
+        $auth_list = Model::getByQuery("SELECT * FROM authors");        
         include BASE . '/views/admin_b.php';     
     }
 }

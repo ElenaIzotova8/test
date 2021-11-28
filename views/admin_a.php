@@ -72,13 +72,13 @@
                 <div>
                     <input type="date" class="form-control" name="date_end" />
                 </div>
-                <div>
-                    <button name="filtr" class="btn btn-primary btn-block  m-3" type="submit">Найти</button>
-                </div>
                 <label class="col-form-label m-3">Количество книг</label>
                 <div>
                     <input type="number" class="form-control" name="count" />
                 </div>
+                <div>
+                    <button name="filtr" class="btn btn-primary btn-block  m-3" type="submit">Найти</button>
+                </div>                
             </div>
           </form>
           <?php if ($msg != '') {?>
