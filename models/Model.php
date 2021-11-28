@@ -64,14 +64,18 @@ class Model{
 		$values = [];
 		foreach ($params as $key => $value){
 			$fields[] = $key;
-			$values[] = "'".$value."'"; 
+			$values[] = "'".self::r($value)."'"; 
 		}
 		self::$db -> query("INSERT INTO ".static::$table." (".implode(',', $fields).") VALUES (".implode(',', $values).")");
 		return self::$db->insert_id;
 	}
     
-    public static function update($field, $value, $where){		
-		self::$db -> query("UPDATE  ".static::$table." SET ".$field."='".$value."' WHERE ".$where);		
+    public static function update($params, $where){
+		$values = [];
+		foreach ($params as $key => $value){			
+			$values[] = $key."='".self::r($value)."'"; 
+		}
+		self::$db -> query("UPDATE  ".static::$table." SET ".implode(',', $values)." WHERE ".$where);		
 	}
 	
 	public static function deldata($id){		
