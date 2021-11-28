@@ -12,7 +12,7 @@ class Model{
         self::$db = new \mysqli($host, $user, $pass, $dbName);
     }    
 	
-	public static function getByParams($params, $limit = '', $table = ''){
+	public static function getByParams($params, $order = '', $limit = '', $table = ''){
 		$where = []; 
         if (count($params) > 0) {
             foreach ($params as $key => $value){
@@ -30,13 +30,19 @@ class Model{
             $limit = '';
         }
         
+        if (!empty($order)) {
+            $limit = "ORDER BY $order";
+        } else {
+            $limit = '';
+        }
+        
         if (!empty($table)) {
             $table = $table;
         } else {
             $table = static::$table;
         }
         
-        $query = "SELECT * FROM $table $where $limit";
+        $query = "SELECT * FROM $table $where $order $limit";
         
         $data = [];		
 		$res = self::$db -> query($query);

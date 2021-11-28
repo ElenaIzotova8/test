@@ -13,7 +13,7 @@
     
     <div class="container-fluid">      
       <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <nav class="col-md-1 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
@@ -29,7 +29,7 @@
             </ul>
           </div>
         </nav>
-        <form method="post" action="?page=a" class="col-10 ml-sm-auto px-4">
+        <form method="post" action="?page=a" class="col-11 ml-sm-auto px-4">
             <div class="form-inline">
                 <label class="col-form-label  m-3">Имя</label>
                 <div>
@@ -48,17 +48,56 @@
                 </div>
             </div>
         </form>
-        <main role="main" class="col-10 ml-sm-auto px-4">                    
+        <main role="main" class="col-11 ml-sm-auto px-4">                    
           <h2>Авторы и количество книг</h2>
+          <form method="post" action="?page=a" class="px-4">
+            <div class="form-inline">
+                <label class="col-form-label  m-3">Имя</label>
+                <div>
+                    <input type="text" class="form-control" name="first_name" />
+                </div>
+                <label class="col-form-label m-3">Отчество</label>
+                <div>
+                    <input type="text" class="form-control" name="patronymic" />
+                </div>
+                <label class="col-form-label m-3">Фамилия</label>
+                <div>
+                    <input type="text" class="form-control" name="last_name" />
+                </div>
+                <label class="col-form-label m-3">Дата создания от</label>
+                <div>
+                    <input type="date" class="form-control" name="date_start" />
+                </div>
+                <label class="col-form-label m-3">до</label>
+                <div>
+                    <input type="date" class="form-control" name="date_end" />
+                </div>
+                <div>
+                    <button name="filtr" class="btn btn-primary btn-block  m-3" type="submit">Найти</button>
+                </div>
+                <label class="col-form-label m-3">Количество книг</label>
+                <div>
+                    <input type="number" class="form-control" name="count" />
+                </div>
+            </div>
+          </form>
+          <?php if ($msg != '') {?>
+          <div class="row">
+            <p class="m-3"><?=$msg;?></p>
+            <a class="btn btn-danger btn-sm m-3" href="?page=a&del=<?=$aid;?>&all=1">Удалить</a>
+          </div>
+          <?php }?>
           <div class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
                 <tr align="center">
                   <th class="w1" scope="col"></th>
                   <th class="w1" scope="col"></th>
-                  <th>Автор</th>
-                  <th>Дата создания</th>                  
-                  <th>Количество книг</th>
+                  <th><a href="?page=a&ord=first_name<?=isset($order) && $desc !=' DESC' ? '&desc=1' : '';?>">Имя</a></th>
+                  <th><a href="?page=a&ord=patronymic<?=isset($order) && $desc !=' DESC' ? '&desc=1' : '';?>">Отчество</a></th>
+                  <th><a href="?page=a&ord=last_name<?=isset($order) && $desc !=' DESC' ? '&desc=1' : '';?>">Фамилия</a></th>
+                  <th><a href="?page=a&ord=created<?=isset($order) && $desc !=' DESC' ? '&desc=1' : '';?>">Дата создания</a></th>                  
+                  <th><a href="?page=a&ord=count<?=isset($order) && $desc !=' DESC' ? '&desc=1' : '';?>">Количество книг</a></th>
                 </tr>
               </thead>
               <tbody>
@@ -74,7 +113,9 @@
                                 Удалить
                                 </a>
                             </td>
-                            <td><?=$item['first_name'].' '.(isset($item['patronymic']) && $item['patronymic'] != null ? $item['patronymic'].' ' : '').$item['last_name'];?></td>
+                            <td><?=$item['first_name'];?></td>
+                            <td><?=$item['patronymic'];?></td>
+                            <td><?=$item['last_name'];?></td>
                             <td><?=$item['created'];?></td>
                             <td><?=$item['count'];?></td>
                         </tr>
